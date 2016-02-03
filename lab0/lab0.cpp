@@ -109,13 +109,26 @@ int main(int argc, char* argv[]){
         int length = word.length();
         int previousLetter = 0;
         for (int i = 0; i < length; i++){
-            const char thisLetter = word.at(i);
+            char thisLetter = word.at(i);
             //if is letter
             if (isalpha(thisLetter)){
                 if (i - previousLetter != 1 && previousLetter != 0)
                     break;
                 precise_word += thisLetter;
                 previousLetter = i;
+            }else if (int(thisLetter) == 39 && previousLetter != 0 && i <= length -2){
+                if (word.at(i+1) == 's'){
+                    precise_word += thisLetter;
+                    previousLetter = i;
+                }
+            }else if (int(thisLetter) == -30 && previousLetter != 0 && i <= length -4){
+                if (word.at(i+3) == 's'){
+                    precise_word += thisLetter;
+                    precise_word += char(-128);
+                    precise_word += char(-103);
+                    i += 2;
+                    previousLetter = i;
+                }
             }
         }
         //now we get the whole word without any comma, brackets etc.
